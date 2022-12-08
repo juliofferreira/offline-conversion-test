@@ -1,6 +1,6 @@
 import { GoogleAdsApi, services } from 'google-ads-api';
 import { createHash } from 'crypto';
-import { variables } from './my-info';
+import { variables } from './my-info.js';
 
 const hash = (string) => {
 	return createHash('sha256').update(string).digest('hex');
