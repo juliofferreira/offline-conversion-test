@@ -1,0 +1,17 @@
+{
+	"name": "test-node-conversion",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "",
+	"main": "conversion.js",
+	"dependencies": {
+		"google-ads-api": "^12.0.1"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
