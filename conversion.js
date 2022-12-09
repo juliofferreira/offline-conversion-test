@@ -1,10 +1,6 @@
 import { GoogleAdsApi, services } from 'google-ads-api';
-import { createHash } from 'crypto';
+import { hash, hashEmail } from './hash.js';
 import { variables } from './my-info.js';
-
-const hash = (string) => {
-	return createHash('sha256').update(string).digest('hex');
-};
 
 const client = new GoogleAdsApi({
 	client_id: variables.client_id,
@@ -12,7 +8,7 @@ const client = new GoogleAdsApi({
 	developer_token: variables.developer_token,
 });
 
-const main = async () => {
+const sendClickConversion = async () => {
 	const customerId = variables.customer_id;
 	const conversionActionId = variables.conversion_action_id;
 
@@ -22,9 +18,15 @@ const main = async () => {
 	});
 
 	const clickConversion = {
-		user_identifiers: [{ email: hash('julio.faria@rocky.ag') }],
+		user_identifiers: [
+			{
+				email: hashEmail('julio.faria@rocky.ag'),
+				phone_number: hash('+5512345678901'),
+			},
+		],
 		conversion_action: `customers/${customerId}/conversionActions/${conversionActionId}`,
-		conversion_date_time: '2022-08-12 00:00:00-03:00',
+		// Format yyyy-mm-dd hh:mm:ss+|-timezone (timezone might be optional, check documentation)
+		conversion_date_time: '2022-08-12 00:00:00-0300',
 		conversion_value: 123,
 		currency_code: 'BRL',
 	};
@@ -40,5 +42,3 @@ const main = async () => {
 		console.log(e);
 	}
 };
-
-main();
