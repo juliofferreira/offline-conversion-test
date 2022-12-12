@@ -6,7 +6,6 @@ import { createHash } from 'crypto';
 // Make sure the phone number follows E164 standard Ex: +5512345678901
 export const hash = (string) => {
 	const normalizedString = string.trim().toLowerCase();
-	console.log(normalizedString);
 	return createHash('sha256').update(normalizedString).digest('hex');
 };
 

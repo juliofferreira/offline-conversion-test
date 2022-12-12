@@ -42,3 +42,5 @@ const sendClickConversion = async () => {
 		console.log(e);
 	}
 };
+
+sendClickConversion();
