@@ -1,20 +1,20 @@
 import { GoogleAdsApi, services } from 'google-ads-api';
 import { hash, hashEmail } from './hash.js';
-import { variables } from './my-info.js';
+import { adsVariables } from './variables.js';
 
 const client = new GoogleAdsApi({
-	client_id: variables.client_id,
-	client_secret: variables.client_secret,
-	developer_token: variables.developer_token,
+	client_id: adsVariables.client_id,
+	client_secret: adsVariables.client_secret,
+	developer_token: adsVariables.developer_token,
 });
 
 const sendClickConversion = async () => {
-	const customerId = variables.customer_id;
-	const conversionActionId = variables.conversion_action_id;
+	const customerId = adsVariables.customer_id;
+	const conversionActionId = adsVariables.conversion_action_id;
 
 	const customer = client.Customer({
 		customer_id: customerId,
-		refresh_token: variables.refresh_token,
+		refresh_token: adsVariables.refresh_token,
 	});
 
 	const clickConversion = {
