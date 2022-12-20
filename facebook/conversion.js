@@ -14,7 +14,8 @@ const api = bizSdk.FacebookAdsApi.init(access_token);
 
 let current_timestamp = Math.floor(new Date() / 1000);
 
-// in general, remove whitespaces and all lowercase characters, check https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters
+// In general, remove whitespaces and all lowercase characters, lib hashes automatically.
+// Check https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters
 // for details
 const userData = new UserData()
 	.setEmails(['julio.faria@rocky.ag'])
@@ -22,34 +23,31 @@ const userData = new UserData()
 	.setFirstNames(['joao'])
 	.setLastNames(['silva'])
 	.setDatesOfBirth(['AAAAMMDD'])
-	.setGenders(['m | f'])
+	.setGenders(['m|f'])
 	.setCities(['saopaulo'])
 	.setStates(['sp'])
 	.setZips(['12345'])
-	.setCountries(['br'])
-	// It is recommended to send Client IP and User Agent for Conversions API Events.
-	.setClientIpAddress(request.connection.remoteAddress)
-	.setClientUserAgent(request.headers['user-agent'])
-	.setFbp('fb.1.1558571054389.1098115397')
-	.setFbc('fb.1.1554763741205.AbCdEfGhIjKlMnOpQrStUvWxYz1234567890');
+	.setCountries(['br']);
 
 const content = new Content()
-	.setId('product123')
+	.setId('course123')
 	.setQuantity(1)
-	.setDeliveryCategory(DeliveryCategory.HOME_DELIVERY);
+	.setCategory('course_area')
+	.setTitle('course_name');
 
 const customData = new CustomData()
 	.setContents([content])
-	.setCurrency('usd')
-	.setValue(123.45);
+	.setCurrency('brl')
+	.setValue(123.45)
+	.setOrderId('abc123');
 
 const serverEvent = new ServerEvent()
 	.setEventName('Purchase')
 	.setEventTime(current_timestamp)
 	.setUserData(userData)
 	.setCustomData(customData)
-	.setEventSourceUrl('http://jaspers-market.com/product/123')
-	.setActionSource('website');
+	// Must be 'email' | 'website' | 'app' | 'phone_call' | 'chat' | 'physical_store' | 'system_generated' | 'other'
+	.setActionSource('system_generated');
 
 const eventsData = [serverEvent];
 const eventRequest = new EventRequest(access_token, pixel_id).setEvents(
