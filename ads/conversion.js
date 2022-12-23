@@ -14,6 +14,7 @@ const sendClickConversion = async () => {
 
 	const customer = client.Customer({
 		customer_id: customerId,
+		login_customer_id: adsVariables.login_customer_id,
 		refresh_token: adsVariables.refresh_token,
 	});
 

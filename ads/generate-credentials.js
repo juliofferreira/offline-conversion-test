@@ -2,25 +2,26 @@ import http from 'http';
 import https from 'https';
 import url from 'url';
 import { google } from 'googleapis';
-import { variables } from './my-info';
+import { adsVariables } from './variables.js';
 
 /**
  * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI.
  * To get these credentials for your application, visit
  * https://console.cloud.google.com/apis/credentials.
  */
-const redirectUrl = 'http://127.0.0.1/authorize';
+const redirectPath = '/authorize';
+const redirectUrl = `http://127.0.0.1${redirectPath}`;
 
 const oauth2Client = new google.auth.OAuth2(
-	variables.client_id,
-	variables.client_secret,
+	adsVariables.client_id,
+	adsVariables.client_secret,
 	redirectUrl
 );
 
-// Access scopes for read-only Drive activity.
+// Access scopes for ads activity.
 const scopes = ['https://www.googleapis.com/auth/adwords'];
 
-// Generate a url that asks permissions for the Drive activity scope
+// Generate a url that asks permissions for the ads activity scope
 const authorizationUrl = oauth2Client.generateAuthUrl({
 	// 'online' (default) or 'offline' (gets refresh_token)
 	access_type: 'offline',
@@ -47,12 +48,10 @@ async function main() {
 			if (req.url == '/') {
 				res.writeHead(301, { Location: authorizationUrl });
 			}
-
 			// Receive the callback from Google's OAuth 2.0 server.
-			if (req.url.startsWith(redirectUrl)) {
+			if (req.url.startsWith(redirectPath)) {
 				// Handle the OAuth 2.0 server response
 				let q = url.parse(req.url, true).query;
-
 				if (q.error) {
 					// An error response e.g. error=access_denied
 					console.log('Error:' + q.error);
